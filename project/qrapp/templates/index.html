@@ -4,57 +4,177 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">  
 <title> Login Page </title>  
 <style>   
-Body {  
-  font-family: Calibri, Helvetica, sans-serif;  
-  background-color: yellowgreen;  
-}  
-button {   
-       background-color: black;   
+ body {
+    font-family: Calibri, Helvetica, sans-serif;
+    background-image: radial-gradient(circle at center,#d5e1ec,#47bee9);   
+    background-size:contain;
+    background-position: center;
+}
+
+
+   
+
+button{   
+       background-color: whitesmoke;   
        width: 100%;  
-        color: orange;   
+        color: #00AFEE;   
         padding: 15px;   
         margin: 10px 0px;   
         border: none;   
-        cursor: pointer;   
+        cursor: pointer;
+        text-align: center;  
+        border-radius: 20px;  
          }   
- form {   
-        border: 3px solid #f1f1f1;   
-    }   
+ 
  input[type=text], input[type=password] {   
+
+        display: flex;
         width: 100%;   
-        margin: 8px 0;  
-        padding: 12px 20px;   
+        margin: 10px 0;  
+        color: lightgray;
+        padding: 10px 15px;   
         display: inline-block;   
-        border: 2px solid green;   
-        box-sizing: border-box;   
+        border: 5px white;   
+        box-sizing: border-box;  
+        border-radius: 7px; 
+        
+        
     }  
  button:hover {   
         opacity: 0.7;   
+    }
+    
+  
+.container1{
+    position:relative;
+    margin-top:15%;
+    margin-left:27%;
+    height:420px;
+    align-items: center;
+    justify-content: center;
+    padding: 0px; 
+    display: flex;  
+    width:650px;
+    background-color: white;
+   border-radius: 5px;
+
+}
+.semicircle {
+  background-image: url("/media/glpi.jpg");
+  background-size: contain;
+  background-repeat: no repeat;
+  background-position: 50%;
+  position: absolute;
+  top: 14%;
+  left: 41%;
+  width: 210px;
+  height: 245px;
+  background-color: yellow;
+  border-radius: 50% 50% 20% 20%;
+  padding:5px;
+} 
+.circle1{
+    background-size: contain;
+background-repeat: no repeat;
+background-position: 50%;
+  position: absolute;
+  top: 27%;
+  left: 33.5%;
+  width: 450px;
+  height: 170px;
+  background-color: white;
+  border-radius: 50% 50% 50% 50%;
+
+}
+ .container { 
+   
+    position:absolute;
+    left: 50%;
+    top: 50%;
+    height: 200px;
+    margin-top: -100px ;
+    width: 370px;
+    margin-left: -215px;
+ padding: 25px;   
+ background-color: #009ED6;  
+ background-position: center;
+ box-shadow:#47bee9;  
+
+       
     }   
-  .cancelbtn {   
-        width: auto;   
-        padding: 10px 18px;  
-        margin: 10px 5px;  
-    }   
-        
-     
- .container {   
-        padding: 25px;   
-        background-color: lightblue;  
-    }   
-</style>   
-</head>    
-<body>    
-    <center> <h1> CPCB SERVER ACCESS </h1> </center>   
-    <form>  
-        <div class="container">   
-            <label>Username : </label>   
-            <input type="text" placeholder="Enter Username" name="username" required>  
-            <label>Password : </label>   
-            <input type="password" placeholder="Enter Password" name="password" required>  
-            <button type="submit">Login</button>   
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color:lightgray;
+  opacity: 1; 
+}
+.center{
+    text-align:center;
+}
+.warning{
+    padding: 20px;
+    background-color: white; /* Red */
+    color: red;
+    box-shadow: lightcoral;
+    margin-bottom: 15px;
+   border-radius: 10px;
+
+   font-style: oblique;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+  color: black;
+}
+   
+</style>  
+</head>  
+
+<body>   
+    
+        <form method="POST" > 
             
-        </div>   
-    </form>     
+            {% csrf_token %}
+           
+           
+           <div class="center">
+           
+           
+            <div class="container1">
+                
+            <div class="container"> 
+                
+                <br> <br>   
+                <input type="text" placeholder="Employee ID" name="username" required>     
+                <input type="password" placeholder="Password" name="password" required>  
+                <button  type="submit">LOGIN</button>   
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                           <div class="warning"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>{{ message }}</div>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+        <div class="circle1"></div>
+        <div class="semicircle"></div>
+        
+    </div>                
+            
+         
+        </form>     
+    
+     
+    
 </body>     
 </html>  

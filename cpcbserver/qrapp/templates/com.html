@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Centered Search Bar</title>
+    <style>
+        body {
+            font-family: Calibri, Helvetica, sans-serif;  
+            background-image: radial-gradient(circle at center,#d5e1ec,#47bee9); 
+            
+    
+    
+            background-size:contain;
+            background-position: center;
+        }
+        
+      
+        
+        
+        .search-input {
+            padding:9px;
+            border: none;
+            width: 90%;
+            border-radius: 10px;
+            font-size: 15px;
+        }
+        .search-button {
+            background-color: rgb(48, 164, 210);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            position: right;
+        }
+
+        .container{
+            background-color: #EFF8FC;
+            border-width:10px;
+            border-color: black;
+            display: flex;
+            border-radius: 10px;
+            height: 450px;
+            width: 1000px;
+            margin-left: 230px;
+            margin-top: 100px;
+            padding: 25px;   
+            border-style: solid; 
+            border-width: 1.5px;
+
+            
+        }
+        a:hover{
+        text-decoration: none;
+        color: darkgray;
+    }
+    a{
+  color: black;
+  font-size: large;
+  background-color: transparent;
+  text-decoration: none;
+  font-family: "Lucida Console", "Courier New", monospace;
+}
+table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: "Lucida Console", "Courier New", monospace;
+    }
+
+    th, td {
+      padding: 9px;
+      text-align: left;
+      border-bottom: 2px solid #cdf0fc
+    }
+
+    th {
+      background-color: #cdf0fc;
+      
+    }
+
+    tr:hover {
+      background-color:#ddf7ff;
+      opacity: 0.5;
+    }
+    .edit-icon {
+    font-size: 20px;
+    color:#2ab2e4;
+    padding: 5px;
+  }
+
+  .add-button {
+            background-color: white;
+            color: black;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 50% 50% 50% 50%;
+            font-size: 16px;
+            cursor: pointer;
+            position: right;
+            height: 70px ;
+            width:70px;
+            border-style: solid; 
+            border-width: 1.5px; 
+        
+            
+            
+        }
+    .ccontainer{
+        
+            margin-top :0%;
+            margin-left:47%;
+
+    }
+    .edit-ham-icon{
+      font-size: 32px;
+    color:#007dab;
+    padding: 5px;
+    
+
+    }
+
+  
+    </style>
+</head>
+<body>
+    <form method="POST" action="/apps">
+      <a href="/search"><i class="fas fa-bars edit-ham-icon"></i></a>
+        {% csrf_token %}
+    
+        <input type="text" class="search-input" placeholder="Search Application..">
+        <button class="search-button">Search</button>
+   
+
+    </form>
+    <div class="container">
+        <table>
+            <tr>
+              <th> COMPANY</th>
+              <th>EDIT</th>
+              <th>DELETE</th>
+            </tr>
+            {% for row in rows %}
+            <tr>
+               <td><a href="/apps?company={{ row.company }}">{{ row.company }}</a></td>
+               <td><a href="?edit_id={{ row.company }}"><i class="fas fa-edit edit-icon"></i></a></td>
+               <td><a href="?delete_id={{ row.company }}"><i class="fas fa-trash-alt edit-icon"></i></a></td>
+             </tr>
+          {% endfor %}
+          </table>
+
+    
+        
+        
+    </div>
+   <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="search-button">Submit</button>
+  </form>
+    <form method="POST">
+        {% csrf_token %}
+        <div id="formFieldContainer" style="display: none;">
+          {{ form.as_p }}
+          <button type="submit" class="search-button" style="display: none;">Submit</button>
+      </div>
+  </form>
+  <div class="ccontainer"><button type="button" id="showFormButton" class="add-button"><i class="fas fa-plus edit-icon"></i></button>
+  </div>
+  
+      
+  
+  <script>
+    // JavaScript
+    var showFormButton = document.getElementById("showFormButton");
+    var formFieldContainer = document.getElementById("formFieldContainer");
+    var submitButton = document.querySelector("button[type='submit']");
+  
+    showFormButton.addEventListener("click", function() {
+      formFieldContainer.style.display = "block";
+      submitButton.style.display = "block";
+    });
+  </script>
+    </body>
+</body>
+</html>

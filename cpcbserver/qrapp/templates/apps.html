@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Rack</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'com.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+  </head>
+  <style>
+    body {
+        font-family: Calibri, Helvetica, sans-serif;  
+        background-image: radial-gradient(circle at center,#d5e1ec,#47bee9); 
+        background-size:contain;
+        background-position: center;
+    }
+  
+    .box {
+  width: 100%;
+  height: 350px;
+  background-color: #EFF8FC;
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 8px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  margin-top: 10%;
+  justify-content: center;
+  
+
+  }
+  .form-container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+   
+    .search-input {
+        padding:12px;
+        border: none;
+        width: 80%;
+        margin-left: 12.5%;
+        margin-top: 1%;
+        border-radius: 10px;
+        font-size: 16px;
+    }
+    
+    .search-button {
+        background-color: rgb(48, 164, 210);
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 20px;
+        font-size: 16px;
+        cursor: pointer;
+        position: right;  
+    }
+    .edit-icon {
+    font-size: 15px;
+    color:#2ab2e4;
+    padding: 2px;
+    width:10px;
+    margin-left: 30%;
+  }
+  .edit-plus-icon {
+    font-size: 20px;
+    color:#2ab2e4;
+    padding: 10px;
+    
+    
+  }
+  
+  .add-button {
+            background-color: white;
+            color: black;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 50% 50% 50% 50%;
+            font-size: 16px;
+            cursor: pointer;
+            position: right;
+            height: 70px ;
+            width:70px;
+            border-style: solid; 
+            border-width: 1.5px; 
+            left: 50%;  
+            
+        }
+        .ccontainer{
+        
+        margin-top :0%;
+        margin-left:47%;
+
+}
+    </style>
+
+   <body>
+
+    <form method="POST" action="/apps">
+      {% csrf_token %}
+      <input type="text" class="search-input" placeholder="Search Application..">
+      <button class="search-button">Search</button>
+  </form>
+    
+      
+        <div class="box">
+             <table>
+            <tr>
+              <td class="cell head serial">S. NO.</td>
+              <td class="cell head rack">RACK NO.</td>
+              <td class=" cell head server_make">SERVER MAKE</td>
+              <td class="cell head server_model">SERVER MODEL</td>
+              <td class="cell head server_serial">SERVER SL. NO.</td>
+              <td class="cell head ownership">OWNERSHIP</td>
+              <td class="cell head warranty">WARRANTY/AMC STATUS</td>
+              <td class="cell head vm">VMs (Yes/No)</td>
+              <td class="cell head vm_number">NO. OF VMs</td>
+              <td class="cell head IP">IP ADDRESS</td>
+              <td class="cell head public_IP">PUBLIC IP</td>
+              <td class="cell head application">APPLICATIONS RUNNING</td>
+              <td class="cell head specification">SPECIFICATION</td>
+              <td class="cell head select">EDIT</td>
+              <td class="cell head select">DELETE</td>
+            </tr>
+            {% for server in servers %}
+             
+            <tr>
+              <td class="cell serial">{{ forloop.counter }}</td>
+              <td class="cell rack">{{ server.rack_no }}</td>
+              <td class="cell server_make">{{ server.server_make }}</td>
+              <td class="cell server_model">{{ server.server_model }}</td>
+              <td class="cell server_serial">{{ server.server_serial_no }}</td>
+              <td class="cell ownership">{{ server.ownership }}</td>
+              <td class="cell warranty">{{ server.warranty_amc_status }}</td>
+              <td class="cell vm">{{ server.vms }}</td>
+              <td class="cell vm_number">{{ server.num_of_vms }}</td>
+              <td class="cell IP">{{ server.ip_address }}</td>
+              <td class="cell public_IP">{{ server.public_ip }}</td>
+              <td class="cell application">{{ server.applications_running }}</td>
+              <td class="cell specification">{{ server.specification }}</td>
+              <td class="cell edit-icon"><a href="{% url 'edit' edit_id=server.id %}"><i class="fas fa-edit edit-icon"></i></a></td>
+              <td class="cell edit-icon"><a href="?delete_id={{ server.id }} "><i class="fas fa-trash-alt edit-icon"></i></a></td>
+            </tr>
+             
+            {% endfor %}
+          </table>
+        
+        
+    </div>
+    <form class="form-container" method="POST">
+      {% csrf_token %}
+      <div id="formFieldContainer" style="display: none;">
+        {{ form.as_p }}
+        <button type="submit" class="search-button" style="display: none;">Submit</button>
+    </div>
+</form>
+<div class="ccontainer"><button type="button" id="showFormButton" class="add-button"><i class="fas fa-plus edit-plus-icon"></i></button>
+</div>
+
+    
+
+<script>
+  // JavaScript
+  var showFormButton = document.getElementById("showFormButton");
+  var formFieldContainer = document.getElementById("formFieldContainer");
+  var submitButton = document.querySelector("button[type='submit']");
+
+  showFormButton.addEventListener("click", function() {
+    formFieldContainer.style.display = "block";
+    submitButton.style.display = "block";
+  });
+</script>
+  </div>
+  
+      
+  </body>
+</html>
