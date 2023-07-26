@@ -483,6 +483,86 @@ def edit(request, edit_id):
 
 
 def searchbar(request):
+    #DELETE/EDIT/ADD RACK ON NAVBAR
+    racks=Rack.objects.all()
+    rack_form = RacksForm()
+    if 'edit_R' in request.GET:
+        print("hello")
+        edit_id = request.GET.get('edit_R')
+       
+        rack = get_object_or_404(Rack, id=edit_id)
+        print(rack)
+    
+        if request.method == 'POST':
+            if 'edit_R' in request.GET:
+                rack_form = RacksForm(request.POST, instance=rack)
+                print(rack)
+                if rack_form.is_valid():
+                    rack_form.save()
+                    return redirect('search')
+        else:
+            rack_form = RacksForm(instance=rack)
+
+
+    if 'add_rack' in request.GET:
+        if request.method == 'POST':
+            rack_form = RacksForm(request.POST)
+            if rack_form.is_valid():
+                rack_form.save()
+                return redirect('search')
+            
+        else:
+            rack_form = RacksForm()
+
+    if 'delete_R' in request.GET:
+        delete_id = request.GET.get('delete_R')
+        row = get_object_or_404(Rack, id=delete_id)
+        print("Deleting row:", row)  # Debug print statement
+        row.delete()
+        return redirect('search')
+
+    
+
+    #DELETE/EDIT/ADD COMPANY ON NAVBAR
+    companies=Company.objects.all()
+    company_form = CompanyForm()
+    if 'edit_C' in request.GET:
+        edit_id = request.GET['edit_C']
+        comp = get_object_or_404(Company, id=edit_id)
+       
+        if request.method == 'POST':
+            company_form = CompanyForm(request.POST, instance=comp)
+            if company_form.is_valid():
+                company_form.save() 
+            return redirect('com')
+    if 'add_company' in request.GET:
+        if request.method == 'POST':
+            company_form = CompanyForm(request.POST)
+            if company_form.is_valid():
+                company_form.save()
+                return redirect('com')
+    if 'delete_C' in request.GET:
+        delete_id = request.GET['delete_C']
+        comp = get_object_or_404(Company, id=delete_id)
+        comp.delete()
+        return redirect('com')
+            
+    #DELETE/EDIT/ADD SERVER ON NAVBAR       
+    navservers=Server.objects.all()
+    server_form = ServerForm()
+    if request.method == 'POST':
+        server_form = ServerForm(request.POST, request.FILES)
+        if server_form.is_valid():
+            server_form.save()
+            return redirect('apps')
+        
+    if 'delete_S' in request.GET:
+        delete_id = request.GET['delete_S']
+        server = get_object_or_404(Server, id=delete_id)
+        server.delete()
+        return redirect('apps')
+
+#SEARCH BAR 
     form = ServerForm()
     servers = None
    
@@ -513,5 +593,5 @@ def searchbar(request):
                 )
     
     
-    return render(request, 'apps.html', {'servers': servers, 'form': form, 'search_query': search})
-
+    return render(request, 'apps.html', {'servers': servers, 'form': form,'rack_form':rack_form,'racks':racks,'company_form': company_form,
+    'companies': companies, 'navservers':navservers,'server_form':server_form })
