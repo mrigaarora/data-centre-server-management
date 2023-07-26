@@ -491,20 +491,26 @@ def searchbar(request):
         search = request.GET.get('search')
         
         if search:
-            servers = Server.objects.filter(
-                Q(applications_installed__icontains=search)|
-                Q(portals_running__icontains=search)|
-                Q(specification__icontains=search)|
-                Q(ip_address__contains=search) | 
-                Q(server_model__icontains=search)| 
-                Q(server_serial_no__icontains=search)| 
-                Q(warranty_amc_status__icontains=search)| 
-                Q(ownership__display_name__icontains=search)| 
-                Q(server_model__icontains=search)|
-                Q(server_make__company__icontains=search) |  
-                Q(rack_no__Rack__icontains=search)|
-                Q(num_of_vms__contains=search)
-            )
+            if search.lower() == 'true' or search.lower() == 'vms' or search.lower() == 'virtual'or search.lower() == 'virtual machine'or search.lower() == 'vm':  # Check if the search query is 'true' (case-insensitive)
+                servers = Server.objects.filter(vms=True)
+            elif search.lower() == 'false' or search.lower() == 'not vms' or search.lower() == 'not virtual'or search.lower() == 'not virtual machine'or search.lower() == 'not vm':  # Check if the search query is 'true' (case-insensitive)
+                servers = Server.objects.filter(vms=False)
+            else:
+                servers = Server.objects.filter(
+                    Q(applications_installed__icontains=search)|
+                    Q(portals_running__icontains=search)|
+                    Q(specification__icontains=search)|
+                    Q(ip_address__icontains=search) | 
+                    Q(server_model__icontains=search)| 
+                    Q(server_serial_no__icontains=search)| 
+                    Q(warranty_amc_status__icontains=search)| 
+                    Q(ownership__display_name__icontains=search)| 
+                    Q(server_model__icontains=search)|
+                    Q(server_make__company__icontains=search) |  
+                    Q(rack_no__Rack__icontains=search)|
+                    Q(num_of_vms__contains=search)|
+                    Q(public_ip__icontains=search)
+                )
     
     
     return render(request, 'apps.html', {'servers': servers, 'form': form, 'search_query': search})

@@ -49,7 +49,7 @@
     color: rgb(29, 138, 180);
   }
   
-  .popup-form input[type="text"], input[type="number"] {
+  .popup-form input[type="text"], input[type="number"],[type="file"] {
     width: 100%;
     padding: 8px;
     margin-bottom: 15px;
@@ -68,6 +68,19 @@
   background-color: #fff;
   justify-content: center;
   align-items: center;
+}
+
+/* Additional CSS for file upload field */
+.popup-form input {
+  
+ 
+  font-size: 14px;
+  
+  color: #00739d;
+  font-weight: bold;
+ 
+  /* Add box shadow on focus to indicate interactivity */
+  
 }
 
 .popup-form input[type="checkbox"]:checked {
@@ -326,6 +339,8 @@ margin-top: 5%;
   color: #999999;
 }
 
+
+
  
   
   </style>
@@ -360,7 +375,7 @@ margin-top: 5%;
     <div class="welcome-username">
       {% if user.is_authenticated %}
        {% if user.first_name %}
-        <p>Welcome,<span> {{ user.first_name }}!</span> to our beautiful website</p>
+        <p>Welcome,<span> {{ user.first_name }}!</span></p>
         <hr>
        {% else %}
          <p>Welcome, <span>{{ user.username }}</span>!</p>
